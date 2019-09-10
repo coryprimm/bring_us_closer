@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bring Us Closer: Event Creator Landing Page</title>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+<body>
+    <h1>Bring Us Together</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+<h1> {{this_user.first_name}}, Admin Page!</h1>
+    <h1> All Your Events</h1>
+    <table>
+        <thead>
+            <h1> Formed Events: </h1>
+            <tr>
+                <td> Title</td>
+                <td> Event Code</td>
+                <td> Options</td>
+            </tr>
+        </thead>
+        {% for event in admins_events %}
+            {% if event.formed == True %}
+                <tr>
+                    <td>{{event.title}}</td>
+                    <td>{{event.eventcode}}</td>
+                    <td>{{event.len}}</td>   <!--user count somehow-->
+                    <td><a href="/formed_event/{{event.eventcode}}">View</a> <a href="/events/{{event.id}}/edit">Start</a>  <a href="/delete/{{event.id}}">Delete</a>  </td>
+                </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    <table>
+        <thead>
+            <h1> Unformed Events: </h1>
+            <tr>
+                <td> Title</td>
+                <td> Event Code</td>
+                <td> Options</td>
+            </tr>
+        </thead>
+        {% for event in admins_events %}
+            {% if event.formed == False %}
+                <tr>
+                    <td>{{event.title}}</td>
+                    <td>{{event.eventcode}}</td>
+                    <td>{{event.len}}</td>   <!--user count somehow-->
+                    <td><a href="/unformed_event/{{event.eventcode}}">View</a> <a href="/events/{{event.id}}/edit">Start</a>  <a href="/delete/{{event.id}}">Delete</a>  </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+<form action="/make_event/{{this_user.id}}" method="post">
+    {% csrf_token %}
+    <h2> Create a New Event:</h2>
+    <p>Event Name: <input type="text" name="title"> </p>
+    <p>Number of people: <input type="text" name="capacity"> </p>
+    <p>Date: <input type="date" name="when"> </p>
+    <input type="submit" value="Create Event">
+</form>
+
+</body>
+</html>

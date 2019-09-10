@@ -1,0 +1,35 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bring Us Closer: {{the_event.title}}'s Finalized Teams </title>
+    <link rel="stylesheet" href="{% static 'css/formed_event.css' %}">
+</head>
+<body>
+    <h1>Bring Us Together</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <h1> Formed Event: {{the_event.title}}</h1>
+    <h2>{{the_event.when}}</h2>
+    <h2> Number of people: {{the_count}}</h2>  
+    {% if team_groupings %}
+        {% for team in team_groupings %}
+            <h1>Team:</h1>
+            {% for member in team %}
+                <h1> {{member.first_name}} {{member.last_name}}: {{member.role}}</h1>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>

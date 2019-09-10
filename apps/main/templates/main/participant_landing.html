@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bring Us Closer: Participant Page</title>
+    <link rel="stylesheet" href="{% static 'css/part_landing.css' %}">
+</head>
+<body>
+    <h1>Bring Us Together</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+<h1> {{this_user.first_name}}, Participant Page!</h1>
+    <h1> My Events</h1>
+    <table>
+        <thead>
+                {% for event in users_events %}
+                    {% if event.formed == True %}
+                <tr>
+                    <td>{{event.title}}</td>  <!--user count somehow-->
+                    <td><a href="/formed_event/{{event.eventcode}}">View</a>  <a href="/delete/{{event.id}}">Unjoin</a>  </td>
+                    {% endif %}
+                    {% if event.formed == False %}
+                <tr>
+                    <td>{{event.title}}</td>  <!--user count somehow-->
+                    <td><a href="/unformed_event/{{event.eventcode}}">View</a>  <a href="/delete/{{event.id}}">Unjoin</a>  </td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+        </thead>
+    </table>
+
+<form action="/set_type/{{this_user.id}}" method="post">
+    {% csrf_token %}
+    <li>
+
+        <h3>What type of worker are you?</h3>
+        
+        <div>
+            <input type="radio" name="role" value="D" />
+            <label for="question-1-answers-A">D</label>
+        </div>
+        
+        <div>
+            <input type="radio" name="role" value="I" />
+            <label for="question-1-answers-B">I</label>
+        </div>
+        
+        <div>
+            <input type="radio" name="role"  value="S" />
+            <label for="question-1-answers-C">S</label>
+        </div>
+        
+        <div>
+            <input type="radio" name="role"  value="C" />
+            <label for="question-1-answers-D">C</label>
+        </div>
+    
+    </li>
+    <input type="submit" value="Submit Quiz" />
+</form>
+
+<form action="/join_event/{{this_user.id}}" method="post">
+    {% csrf_token %}
+    <h2>Join a new Event:</h2>
+    <p>Event Number: <input type="text" name="eventcode"> </p>
+    <input type="submit" value="Join Event">
+</form>
+
+{{this_user.role}}
+</body>
+</html>

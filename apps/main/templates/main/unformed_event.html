@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bring Us Closer: Unfinalized Event</title>
+    <link rel="stylesheet" href="{% static 'css/unformed.css' %}">
+</head>
+<body>
+    <h1>Bring Us Together</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+<h1> {{the_user.first_name}}, Admin Page!</h1>
+    <h1> Unformed Event: {{the_event.title}}</h1>
+    <h2> Date: {{the_event.when}}</h2>
+    <h2> People Enrolled: {{the_count}}/{{the_event.capacity}}</h2>
+    <h2> Event code: {{the_event.eventcode}}</h2>
+    <table>
+        <thead>
+                {% for user in event.users %}
+            <tr>
+                <td>{{user.first_name}} {{user.last_name}}</td>
+            </tr>
+                {% endfor %}
+        </thead>
+    </table>
+    <h2> {{the_difference}} Empty Slots</h2>
+
+<form action="/finalize_event/{{the_event.eventcode}}" method="post">
+    {% csrf_token %}
+    <h2> Make "Bring Us Together" Optimized Teams:</h2>
+    <p>Build <input type="number" name="howmany"> teams </p>
+    <input type="submit" value="•">
+</form>
+
+</body>
+</html>
