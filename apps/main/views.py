@@ -363,6 +363,7 @@ def finalize_event(request, urlpassed_id):
 
         return redirect('/formed_event/' + event.eventcode)
 
+#The logout process:
 def logout(request):
     del request.session['user_id']
     return redirect('/')
